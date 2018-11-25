@@ -1,6 +1,11 @@
-const {app, ipcMain, BrowserWindow, Tray, Menu, session} = require('electron');
+const {app, BrowserWindow, Tray, autoUpdater} = require('electron');
 const fs = require("fs");
 const util = require("util");
+
+const server = "https://hazel-server-qekwhinebb.now.sh";
+const feed = `${server}/update/${process.platform}/${app.getVersion()}`
+
+autoUpdater.setFeedURL(feed)
 
 var apps = [];
 var windows = [];
