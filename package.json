@@ -4,11 +4,15 @@
   "description": "Iridium offline engine",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "test": "electron .Trello"
   },
   "author": "USP",
   "license": "USP",
   "devDependencies": {
     "electron": "latest"
+  },
+  "dependencies": {
+    "update-electron-app": "^1.3.0"
   }
 }

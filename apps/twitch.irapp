@@ -3,7 +3,7 @@
     "url": "https://twitch.tv/",
     "options": {
         "title": "Twitch",
-        "icon": "./apps/netflix.png",
+        "icon": "./apps/twitch.ico",
         "width": 1280,
         "height": 720
     }

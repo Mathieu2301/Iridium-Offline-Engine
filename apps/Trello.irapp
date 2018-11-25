@@ -1,0 +1,13 @@
+{
+    "name": "Trello",
+    "url": "https://trello.com/",
+    "options": {
+        "title": "Trello",
+        "icon": "./apps/trello.ico",
+        "width": 1280,
+        "height": 720,
+        "webPreferences": {
+            "partition": "persist:sitePoller"
+        }
+    }
+}

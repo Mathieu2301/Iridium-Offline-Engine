@@ -4,7 +4,7 @@ const util = require("util");
 
 var apps = [];
 var windows = [];
-let tray = null
+var trays = [];
 
 function startApp(appid) {
   console.log("Starting : " + appid);
@@ -16,7 +16,7 @@ function startApp(appid) {
     options.show = false;
 
     windows[appid] = new BrowserWindow(options);
-    
+
     windows[appid].loadURL(app.url);
     if (app.menubar != true){
       windows[appid].setMenu(null);
@@ -36,15 +36,7 @@ function startApp(appid) {
   }
 }
 
-var contextMenu_template = [];
-var contextMenu = Menu.buildFromTemplate(contextMenu_template);
-
-
 function init(){
- 
-  tray = new Tray(__dirname + '/logo.ico')
-  tray.setToolTip('Iridium')
-  tray.setContextMenu(contextMenu)
 
   var nbr = 0;
 
@@ -56,9 +48,14 @@ function init(){
 
       startApp(appid);
 
-      contextMenu_template.push({ label: app.name, type: 'normal', click: function(){ new function(){ startApp(appid) }}})
-      contextMenu = Menu.buildFromTemplate(contextMenu_template)
-      tray.setContextMenu(contextMenu)
+      var tray = new Tray(__dirname + "/" + app.options.icon);
+
+      trays.push(tray);
+      tray.setToolTip(app.name);
+
+      tray.on('click', () => {
+        windows[appid].isVisible() ? windows[appid].hide() : windows[appid].show()
+      })
 
       nbr++;
     }else{
@@ -67,6 +64,20 @@ function init(){
   });
 }
 
+app.requestSingleInstanceLock();
+
 app.on('ready', init);
+
+app.on('second-instance', function(evt, commandLine, dir){
+  var arg = commandLine[1];
+  console.log(arg)
+  if (arg && arg != "."){
+    apps.forEach(function(app, appid){
+      if (app.name == arg){
+        startApp(appid);
+      }
+    })
+  }
+});
 
 app.on('window-all-closed', function () {})
