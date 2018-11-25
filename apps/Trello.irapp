@@ -1,6 +1,7 @@
 {
     "name": "Trello",
     "url": "https://trello.com/",
+    "stay": true,
     "options": {
         "title": "Trello",
         "icon": "./apps/trello.ico",

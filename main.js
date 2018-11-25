@@ -1,10 +1,6 @@
 const {app, BrowserWindow, Tray, autoUpdater} = require('electron');
 const fs = require("fs");
-const util = require("util");
-
-const feed = `https://hazel-server-qekwhinebb.now.sh/update/${process.platform}/${app.getVersion()}`
-console.log(feed)
-autoUpdater.setFeedURL(feed)
+const path = require("path")
 
 var apps = [];
 var windows = [];
@@ -26,17 +22,35 @@ function startApp(appid) {
       windows[appid].setMenu(null);
     }
 
-    /*windows[appid].once('ready-to-show', () => {
-      windows[appid].show()
-    })*/
+    if (app.stay == false){
+      windows[appid].once('ready-to-show', () => {
+        windows[appid].show()
+      })
+    }
 
     windows[appid].on('close', function (evt) {
-      evt.preventDefault();
-      windows[appid].hide();
+      if (app.stay != false){
+        evt.preventDefault();
+        windows[appid].hide();
+      }else{
+        windows[appid] = null;
+      }
     })
 
   }else{
     windows[appid].show();
+  }
+}
+
+function closeApp(appid){
+  var app = apps[appid];
+  var window = windows[appid];
+
+  if (app.stay != false){
+    window.hide();
+  }else{
+    window.close();
+    windows[appid] = null;
   }
 }
 
@@ -58,7 +72,7 @@ function init(){
       tray.setToolTip(app.name);
 
       tray.on('click', () => {
-        windows[appid].isVisible() ? windows[appid].hide() : windows[appid].show()
+        (windows[appid] && windows[appid].isVisible()) ? closeApp(appid) : startApp(appid)
       })
 
       nbr++;
@@ -68,20 +82,25 @@ function init(){
   });
 }
 
-app.requestSingleInstanceLock();
+const gotTheLock = app.requestSingleInstanceLock()
 
-app.on('ready', init);
-
-app.on('second-instance', function(evt, commandLine, dir){
-  var arg = commandLine[1];
-  console.log(arg)
-  if (arg && arg != "."){
-    apps.forEach(function(app, appid){
-      if (app.name == arg){
-        startApp(appid);
+if (!gotTheLock) {
+  app.quit();
+}else{
+  app.on('ready', init);
+  app.on('second-instance', function(evt, commandLine, dir){
+    try{
+      var arg = commandLine[2];
+      console.log(arg)
+      if (arg && arg != "."){
+        apps.forEach(function(app, appid){
+          if (app.name == arg){
+            startApp(appid);
+          }
+        })
       }
-    })
-  }
-});
+    }catch(e){}
+  });
+}
 
 app.on('window-all-closed', function () {})

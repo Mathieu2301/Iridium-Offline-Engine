@@ -1,18 +1,17 @@
 {
   "name": "iridium-offline-engine",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Iridium offline engine",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "test": "electron .Trello"
+    "pack": "electron-builder .  --w --pd"
   },
   "author": "USP",
   "license": "USP",
   "devDependencies": {
-    "electron": "latest"
-  },
-  "dependencies": {
-    "update-electron-app": "^1.3.0"
+    "electron": "latest",
+    "electron-builder": "^20.36.2",
+    "electron-packager": "^12.2.0"
   }
 }

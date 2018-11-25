@@ -1,6 +1,7 @@
 {
     "name": "Twitch",
     "url": "https://twitch.tv/",
+    "stay": false,
     "options": {
         "title": "Twitch",
         "icon": "./apps/twitch.ico",
