@@ -1,0 +1,10 @@
+{
+    "name": "Netflix",
+    "url": "https://www.netflix.com/browse",
+    "options": {
+        "title": "Netflix",
+        "icon": "./apps/netflix.png",
+        "width": 1280,
+        "height": 720
+    }
+}

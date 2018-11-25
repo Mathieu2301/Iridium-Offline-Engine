@@ -1,0 +1,13 @@
+{
+    "name": "CookieTESTER",
+    "url": "http://www.html-kit.com/tools/cookietester/",
+    "options": {
+        "title": "CookieTESTER",
+        "icon": "./apps/netflix.png",
+        "width": 1280,
+        "height": 720,
+        "webPreferences": {
+            "partition": "persist:sitePoller"
+        }
+    }
+}

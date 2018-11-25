@@ -1,0 +1,10 @@
+{
+    "name": "Whatsapp",
+    "url": "https://web.whatsapp.com/",
+    "options": {
+        "title": "WhatsApp",
+        "icon": "./apps/whatsapp.ico",
+        "width": 1280,
+        "height": 720
+    }
+}

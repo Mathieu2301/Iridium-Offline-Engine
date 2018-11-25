@@ -1,0 +1,20 @@
+{
+  "name": "iridium-offline-engine",
+  "version": "1.0.0",
+  "description": "Iridium offline engine",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "USP",
+  "license": "USP",
+  "devDependencies": {
+    "electron": "latest"
+  },
+  "pkg": {
+    "scripts": "*"
+  },
+  "dependencies": {
+    "util": "^0.11.1"
+  }
+}

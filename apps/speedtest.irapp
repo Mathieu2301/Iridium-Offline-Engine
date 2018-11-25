@@ -1,0 +1,10 @@
+{
+    "name": "Twitch",
+    "url": "https://twitch.tv/",
+    "options": {
+        "title": "Twitch",
+        "icon": "./apps/netflix.png",
+        "width": 1280,
+        "height": 720
+    }
+}
