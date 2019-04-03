@@ -1,6 +1,28 @@
 const {app, BrowserWindow, Tray, autoUpdater} = require('electron');
 const fs = require("fs");
-const path = require("path")
+const path = require("path");
+const updater = new (require("./updater"))("op2FVigbAO6w17mUhByICKSfQasnkLqeGP45lzYjt3Jr8TZHvxE09cMuDNWdXR", "win", "1.0.0");
+
+__dirname = __dirname.replace("\\resources\\app.asar", "");
+
+function update_check(){
+  updater.check((result, version) => {
+    if (result){
+      console.log("Update found : " + version.last_version)
+      updater.download(function(){
+        var tray = new Tray(__dirname + "\\resources\\app.asar/update.ico");
+        tray.setToolTip("CLick to update to " + version.last_version);
+        tray.on('click', () => {
+          updater.update();
+        })
+      })
+    }else{
+      setTimeout(function(){
+        update_check();
+      }, 30000)
+    }
+  })
+}
 
 var apps = [];
 var windows = [];
@@ -16,6 +38,10 @@ function startApp(appid) {
     options.show = false;
 
     windows[appid] = new BrowserWindow(options);
+
+    if (app.enable_debug_tools == true){
+      windows[appid].webContents.openDevTools();
+    }
 
     windows[appid].loadURL(app.url);
     if (app.menubar != true){
@@ -65,8 +91,8 @@ function init(){
       var appid = nbr;
 
       startApp(appid);
-
-      var tray = new Tray(__dirname + "/" + app.options.icon);
+      
+      var tray = new Tray(__dirname + "\\" + app.options.icon);
 
       trays.push(tray);
       tray.setToolTip(app.name);
@@ -77,9 +103,11 @@ function init(){
 
       nbr++;
     }else{
-      console.log("ERROR: " + err);
+      console.log("APPLICATION LOAD ERROR: " + err);
     }
   });
+
+  update_check();
 }
 
 const gotTheLock = app.requestSingleInstanceLock()
@@ -91,7 +119,6 @@ if (!gotTheLock) {
   app.on('second-instance', function(evt, commandLine, dir){
     try{
       var arg = commandLine[2];
-      console.log(arg)
       if (arg && arg != "."){
         apps.forEach(function(app, appid){
           if (app.name == arg){

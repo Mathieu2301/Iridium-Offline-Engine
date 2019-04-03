@@ -1,11 +1,16 @@
 {
   "name": "iridium-offline-engine",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "Iridium offline engine",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "pack": "electron-builder .  --w --pd"
+    "pack": "electron-builder ."
+  },
+  "build": {
+    "appId": "com.iridium.offlinengine.app",
+    "icon" : "./logo.ico",
+    "asar": true
   },
   "author": "USP",
   "license": "USP",
@@ -13,5 +18,9 @@
     "electron": "latest",
     "electron-builder": "^20.36.2",
     "electron-packager": "^12.2.0"
+  },
+  "dependencies": {
+    "electron-winstaller": "^2.7.0",
+    "electron-wix-msi": "^2.1.1"
   }
 }
